@@ -144,7 +144,6 @@ class game {
     }
   }
 
-
   result(data) {
     console.log('result data>>>', data)
     let findRoom = allRoom.find((e, i) => e.nameRoom === data)
