@@ -8,7 +8,6 @@ let allRoom = [];
 let room = [];
 let pushBetting = {}
 
-
 class game {
   constructor() {
     this.socketTest()
@@ -110,6 +109,7 @@ class game {
         findWinner.winner = false
       }
       this.gameStart(res_findRoom)
+      console.log('readyStart/res_findRoom',res_findRoom)
       console.log('readyStart/allRoom', JSON.stringify(allRoom))
     } else {
       console.log('WAITING:', 'WAITING')

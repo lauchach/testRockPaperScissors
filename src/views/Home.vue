@@ -127,7 +127,7 @@ import io from 'socket.io-client';
 
 export default {
   name: 'Home',
-  // components: {},
+  components: {},
   data() {
     return {
       username: '',
