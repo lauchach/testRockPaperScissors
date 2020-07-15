@@ -90,11 +90,11 @@
           <b-col align-self="stretch" v-if="this.myRoom.plaryer2.bet === ''" >
             <img src="../img/waiting.png" alt="" width="100%"/></b-col>
           <b-col align-self="stretch" v-else-if="this.myRoom.plaryer2.bet === 'rock'" >
-            <img src="../img/rock.png" alt="" width="100%"/></b-col>
+            <img src="../img/rock2.png" alt="" width="100%"/></b-col>
           <b-col align-self="stretch" v-else-if="this.myRoom.plaryer2.bet === 'scissors'" >
-            <img src="../img/scissors.png" alt="" width="100%"/></b-col>
+            <img src="../img/scissors2.png" alt="" width="100%"/></b-col>
           <b-col align-self="stretch" v-else-if="this.myRoom.plaryer2.bet === 'paper'" >
-            <img src="../img/paper.png" alt="" width="100%"/></b-col>
+            <img src="../img/paper2.png" alt="" width="100%"/></b-col>
           <b-col align-self="stretch" v-else >
             <img src="../img/waiting.png" alt="" width="100%"/></b-col>
         </b-row>
@@ -108,13 +108,23 @@
               <b-card-text>{{ this.myRoom.plaryer1.score }}</b-card-text>
             </b-card>
             </b-col>
-          <b-col align-self="stretch">
+          <b-col align-self="stretch" v-if="this.myRoom.plaryer1.bet === ''" >
             <img src="../img/rock.png" @click="betting('rock')" alt="" width="100%"/>
           </b-col>
-          <b-col align-self="stretch"><img src="../img/scissors.png" @click="betting('scissors')"
+          <b-col align-self="stretch" v-if="this.myRoom.plaryer1.bet === ''" >
+            <img src="../img/scissors.png" @click="betting('scissors')"
           alt="" width="100%" /></b-col>
-          <b-col align-self="stretch"><img src="../img/paper.png" @click="betting('paper')"
+          <b-col align-self="stretch" v-if="this.myRoom.plaryer1.bet === ''" >
+            <img src="../img/paper.png" @click="betting('paper')"
           alt="" width="100%"/></b-col>
+
+          <b-col align-self="stretch" v-else-if="this.myRoom.plaryer1.bet === 'rock'" >
+            <img src="../img/rock.png" alt="" width="60%"/></b-col>
+          <b-col align-self="stretch" v-else-if="this.myRoom.plaryer1.bet === 'scissors'" >
+            <img src="../img/scissors.png" alt="" width="60%"/></b-col>
+          <b-col align-self="stretch" v-else-if="this.myRoom.plaryer1.bet === 'paper'" >
+            <img src="../img/paper.png" alt="" width="60%"/></b-col>
+          <b-col align-self="stretch" v-else ></b-col>
         </b-row>
       </b-container>
     </div>
