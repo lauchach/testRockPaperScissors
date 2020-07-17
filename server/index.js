@@ -53,6 +53,7 @@ class game {
       });
 
       socket.on('betting', data => {
+        console.log('betting', data)
         this.pushBetting(data)
       });
 
@@ -133,7 +134,7 @@ class game {
 
   result(data) {
     let findRoom = allRoom.find((e, i) => e.nameRoom === data)
-    if (findRoom.client > 1) {
+    if (findRoom.client[0].bet && findRoom.client[1].bet) {
       if (findRoom.client[0].bet === findRoom.client[1].bet) {
         findRoom.client[0].winner = false
         findRoom.client[1].winner = false
