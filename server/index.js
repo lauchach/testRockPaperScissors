@@ -86,10 +86,18 @@ class game {
   readyStart(data) {
     if (data.client.length > 1) {
       let res_findRoom = allRoom.find(e => e.nameRoom === data.nameRoom)
-      let findWinner = res_findRoom.client.find(e => e.bet) //ควรแก้ไข
-      if (findWinner) {
-        findWinner.bet = ''
-        findWinner.winner = false
+      let playIsBetting = res_findRoom.client.filter(e => e.bet !== '') //ควรแก้ไข
+      if (playIsBetting) {
+        for (let i = 0; i < playIsBetting.length; i++) {
+          playIsBetting[i] = {
+            users: playIsBetting[i].users,
+            nameRoom: playIsBetting[i].nameRoom,
+            bet: '',
+            winner: false,
+            score: playIsBetting[i].score
+          }
+        }
+        res_findRoom.client = playIsBetting
       }
       this.gameStart(res_findRoom)
     } else {
@@ -125,56 +133,64 @@ class game {
 
   result(data) {
     let findRoom = allRoom.find((e, i) => e.nameRoom === data)
-    if (findRoom.client[0].bet === findRoom.client[1].bet) {
-      findRoom.client[0].winner = false
-      findRoom.client[1].winner = false
-    } else if (findRoom.client[0].bet === "rock") {
-      if (findRoom.client[1].bet === "scissors") {
-        findRoom.client[0].winner = true
-        findRoom.client[1].winner = false
-      } else if (findRoom.client[1].bet === "paper") {
+    if (findRoom.client > 1) {
+      if (findRoom.client[0].bet === findRoom.client[1].bet) {
         findRoom.client[0].winner = false
-        findRoom.client[1].winner = true
-      }
-    } else if (findRoom.client[0].bet === "scissors") {
-      if (findRoom.client[1].bet === "paper") {
-        findRoom.client[0].winner = true
         findRoom.client[1].winner = false
-      } else if (findRoom.client[1].bet === "rock") {
-        findRoom.client[0].winner = false
-        findRoom.client[1].winner = true
+      } else if (findRoom.client[0].bet === "rock") {
+        if (findRoom.client[1].bet === "scissors") {
+          findRoom.client[0].winner = true
+          findRoom.client[0].score = findRoom.client[0].score + 1
+          findRoom.client[1].winner = false
+        } else if (findRoom.client[1].bet === "paper") {
+          findRoom.client[0].winner = false
+          findRoom.client[1].winner = true
+          findRoom.client[1].score = findRoom.client[1].score + 1
+        }
+      } else if (findRoom.client[0].bet === "scissors") {
+        if (findRoom.client[1].bet === "paper") {
+          findRoom.client[0].winner = true
+          findRoom.client[0].score = findRoom.client[0].score + 1
+          findRoom.client[1].winner = false
+        } else if (findRoom.client[1].bet === "rock") {
+          findRoom.client[0].winner = false
+          findRoom.client[1].winner = true
+          findRoom.client[1].score = findRoom.client[1].score + 1
+        }
+      } else if (findRoom.client[0].bet === "paper") {
+        if (findRoom.client[1].bet === "rock") {
+          findRoom.client[0].winner = true
+          findRoom.client[0].score = findRoom.client[0].score + 1
+          findRoom.client[1].winner = false
+        } else if (findRoom.client[1].bet === "scissors") {
+          findRoom.client[0].winner = false
+          findRoom.client[1].winner = true
+          findRoom.client[1].score = findRoom.client[1].score + 1
+        }
+      } else {
+        console.log('error 404')
       }
-    } else if (findRoom.client[0].bet === "paper") {
-      if (findRoom.client[1].bet === "rock") {
-        findRoom.client[0].winner = true
-        findRoom.client[1].winner = false
-      } else if (findRoom.client[1].bet === "scissors") {
-        findRoom.client[0].winner = false
-        findRoom.client[1].winner = true
-      }
-    } else {
-      console.log('error 404')
     }
     let res_findRoom = allRoom.find(e => e.nameRoom === data)
-    let findWinner = res_findRoom.client.find(e => e.winner === true)
-    if (findWinner) {
-      findWinner.score = findWinner.score + 1
-    }
+    // let findWinner = res_findRoom.client.find(e => e.winner === true)
+    // if (findWinner) {
+    // findWinner.score = findWinner.score + 1
+    // }
     Socketio.to(data).emit('result', res_findRoom);
-    this.usersScore(res_findRoom)
+    // this.usersScore(res_findRoom)
     this.readyStart(res_findRoom)
     Socketio.sockets.emit('userOnline', users);
   }
 
-  usersScore(data) {
-    let _data = data
-    for (let i = 0; i < users.length; i++) {
-      let findUsersScore = _data.client.filter(e => e.users === users[i].username)
-      if (findUsersScore[0]) {
-        users[i].score = findUsersScore[0].score
-      }
-    }
-  }
+  // usersScore(data) {
+  //   let _data = data
+  //   for (let i = 0; i < users.length; i++) {
+  //     let findUsersScore = _data.client.filter(e => e.users === users[i].username)
+  //     if (findUsersScore[0]) {
+  //       users[i].score = findUsersScore[0].score
+  //     }
+  //   }
+  // }
 
 }
 
